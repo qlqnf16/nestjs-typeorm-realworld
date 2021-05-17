@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Article } from '../../articles/entities/article.entity';
 
 @Entity()
 export class User {
@@ -16,12 +17,14 @@ export class User {
     nullable: false,
   })
   username: string;
-  @Column()
-  bio: null | string;
-  @Column()
+  @Column({ default: '' })
+  bio: string;
+  @Column({ default: '' })
   image: string;
   @Column({
     default: false,
   })
   following: boolean;
+  @OneToMany(() => Article, (article) => article.author)
+  articles: Article[];
 }

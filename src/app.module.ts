@@ -16,6 +16,7 @@ import { ArticlesModule } from './articles/articles.module';
       database: 'realworld',
       autoLoadEntities: true,
       synchronize: true,
+      logging: true,
     }),
     UsersModule,
     ArticlesModule,
