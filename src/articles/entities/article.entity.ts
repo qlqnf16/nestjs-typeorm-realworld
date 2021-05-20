@@ -2,10 +2,13 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  JoinTable,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
+import { Tags } from '../../tags/tags.entity';
 
 @Entity()
 export class Article {
@@ -25,4 +28,7 @@ export class Article {
   description: string;
   @ManyToOne(() => User, (user) => user.articles)
   author: User;
+  @ManyToMany(() => Tags)
+  @JoinTable()
+  tagList: Tags[];
 }
