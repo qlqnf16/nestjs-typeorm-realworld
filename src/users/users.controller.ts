@@ -35,7 +35,16 @@ export class UsersController {
   @Post('users/login')
   async login(@Body('user') loginUserDto: LoginUserDto) {
     const user = await this.usersService.findOne(loginUserDto);
-    console.log(user);
+    const token = this.usersService.generateJwt(user);
+    return {
+      user: {
+        username: user.username,
+        email: user.email,
+        token: token,
+        bio: user.bio,
+        image: user.image,
+      },
+    };
   }
 
   @Patch('users/:id')

@@ -5,6 +5,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
+import { SECRET_KEY } from '../config';
 
 @Injectable()
 export class UsersService {
@@ -26,6 +28,15 @@ export class UsersService {
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) return user;
     return null;
+  }
+
+  async generateJwt(user: User) {
+    const payload = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+    };
+    return await jwt.sign(payload, SECRET_KEY);
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
